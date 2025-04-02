@@ -1,0 +1,47 @@
+https://drive.google.com/file/d/1RZUBlX2VJUwRf72x37_d_YnZuSCyeD9_/view?usp=sharing
+
+
+CREATE(node1)
+CREATE(Elon:CEO) Assigned label as ceo for the node elon
+CREATE (Elon:CEO:Employee)
+CREATE(Elon:CEO{name:"Elon Musk", YOB:1979,POB:"SA"}) creating property keys
+
+totally we created 4 nodes & 3 property keys
+
+MATCH(n) RETURN n - able to see graph n all nodes
+
+CREATE(Tesla:Company{name:"Tesla"})
+
+when we click on name we can see elon n tesla
+CREATE(Elon)-[r:CEO]->(Tesla)
+
+CREATE(Vamsi:Enterprenuer{name:"Vamsi",YOB:2002,POB:"India"})
+CREATE(Ind:Country{name:"India"})
+
+CREATE(p:person{name:"NTR",born:1990})
+CREATE(m:movie{title:"RRR",released:"2023"})
+
+MATCH(p:person{name:"NTR"}),(m:movie{title:"RRR"})
+CREATE(p)-[:Acted_IN]->(m)
+
+MATCH(p:person {name:"NTR"}) RETURN p
+CREATE(p:person {name:"Vamsi",born:2002})
+
+MATCH(p:person{name:"Vamsi"}),(m:movie{title:"RRR"})
+CREATE(p)-[:Acted_IN]->(m)
+
+MATCH(p:person{name:"NTR"}) SET p.born=1991 return p
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/krishnaik06/graph-dataset/refs/heads/main/users_social.csv' as row
+CREATE(:User{UserId:toInteger(row.UserId),name:row.name,age:toInteger(row.age),city:row.city});
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/krishnaik06/graph-dataset/refs/heads/main/posts.csv' as row
+MATCH(u:User{UserId:toInteger(row.UserId)})
+create (u)-[:posted]->(:Post{postId:toInteger(row.postId),content:row.content,timestamp:datetime(row.timestamp)});
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/krishnaik06/graph-dataset/refs/heads/main/posts.csv' as row
+MATCH(u:User{userId:toInteger(row.userId)})
+create (u)-[:POSTED]->(:Post{postId:toInteger(row.postId),content:row.content,timestamp:datetime(row.timestamp)});
+
+Langchain with GraphDB 
+Query -> LLM -> Cypher query -> GraphDB -> LLM -> Output response
